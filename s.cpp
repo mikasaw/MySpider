@@ -186,7 +186,7 @@ bool Myspider::CatchHtml(string url)
 		//下载图片
 		for (int i = 0; i < vImages.size(); i++)
 		{
-			string filename = "C:\\Users/Administrator/Desktop/Array/images/" +
+			string filename = "C:\\Users/Administrator/Desktop/Array/images/" +       //图片存储的位置
 				vImages[i].substr(vImages[i].find_last_of('/') + 1);
 
 			Myspider down;
