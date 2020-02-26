@@ -3,7 +3,7 @@
 #ifndef Myspider_H
 #define	Myspider_H
 
-#endif // !Myspider
+
 #include<iostream>
 #include<string>
 #include<queue>
@@ -11,10 +11,8 @@
 #include<fstream>
 #include<vector>
 #include<time.h>
-#include<unordered_set>
 #include<regex>
 
-//#include<WinSock2.h>
 
 #pragma comment(lib,"ws2_32.lib")
 
@@ -27,20 +25,21 @@ public:
 	};
 	~Myspider() {
 	};
-	bool SockInit();   //Ì×½Ó×Ö³õÊ¼»¯
-	bool SockConnect();//Á¬½ÓÍøÂç
-	bool AnalyseURL(string url);//½âÎöurl
-	bool GetInfoHtml(string url); // »ñÈ¡ÍøÒ³ĞÅÏ¢
-	bool CatchHtml(string url);//»ñÈ¡url
-	bool download(string url, string filename); //ÏÂÔØÍ¼Æ¬
-	bool closeSock();   //¹Ø±ÕÌ×½Ó×Ö
+	bool SockInit();   //å¥—æ¥å­—åˆå§‹åŒ–
+	bool SockConnect();//è¿æ¥ç½‘ç»œ
+	bool AnalyseURL(string url);//è§£æurl
+	bool GetInfoHtml(string url); // è·å–ç½‘é¡µä¿¡æ¯
+	bool CatchHtml(string url);//è·å–url
+	bool download(string url, string filename); //ä¸‹è½½å›¾ç‰‡
+	bool closeSock();   //å…³é—­å¥—æ¥å­—
 	
 
 private:
 
-	string my_host;   //ÓòÃû
-	string my_object;  //Ö÷»úÃû
-	SOCKET my_sock;  //¿Í»§Ì×½Ó×Ö
+	string my_host;   //åŸŸå
+	string my_object;  //ä¸»æœºå
+	SOCKET my_sock;  //å®¢æˆ·å¥—æ¥å­—
 
 };
 
+#endif // !Myspider
