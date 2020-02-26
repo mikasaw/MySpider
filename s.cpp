@@ -1,20 +1,20 @@
 #include "s.h"
-#pragma warning(disable:4996)
+#pragma warning(disable:4996)			    //ç”¨æ¥å–æ¶ˆfopençš„ä¸å®‰å…¨æ€§è­¦å‘Š
 
 
-bool Myspider::SockInit()   //Ì×½Ó×Ö³õÊ¼»¯
+bool Myspider::SockInit()                           //å¥—æ¥å­—åˆå§‹åŒ–
 {
 	WSADATA MyData;
 	if (WSAStartup(MAKEWORD(2, 2), &MyData) != 0)
 	{
-		cout << "ÉêÇë°æ±¾Ê§°Ü" << endl;
+		cout << "ç”³è¯·ç‰ˆæœ¬å¤±è´¥" << endl;
 		return false;
 	}
 		
 
 	if (LOBYTE(MyData.wVersion) != 2 || HIBYTE(MyData.wVersion) != 2)
 	{
-		cout << "°æ±¾´íÎó" << endl;
+		cout << "ç‰ˆæœ¬é”™è¯¯" << endl;
 		return false;
 	}
 		
@@ -22,7 +22,7 @@ bool Myspider::SockInit()   //Ì×½Ó×Ö³õÊ¼»¯
 	my_sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (my_sock == INVALID_SOCKET)
 	{
-		cout << "´´½¨Ì×½Ó×ÖÊ§°Ü" << endl;
+		cout << "åˆ›å»ºå¥—æ¥å­—å¤±è´¥" << endl;
 		return false;
 	}
 
@@ -30,27 +30,27 @@ bool Myspider::SockInit()   //Ì×½Ó×Ö³õÊ¼»¯
 }
 
 
-
-bool Myspider::SockConnect()//Á¬½ÓÍøÂç
+ //è¿æ¥ç½‘ç»œ
+bool Myspider::SockConnect()			 
 {
 	if (SockInit() == false)
 	{
-		cout << "ÍøÂç³õÊ¼»¯Ê§°Ü" << endl;
+		cout << "ç½‘ç»œåˆå§‹åŒ–å¤±è´¥" << endl;
 		return false;
 	}
 
 
-	//½âÎöIPµØÖ·
+	//è§£æIPåœ°å€
 	hostent* host = gethostbyname(my_host.c_str());
 	if (host == NULL)
 	{
-		cout << "½âÎöIPµØÖ·Ê§°Ü" << endl;
+		cout << "è§£æIPåœ°å€å¤±è´¥" << endl;
 		cout << h_errno << endl;
 		return false;
 
 	}
 
-	//Á¬½Ó·şÎñÆ÷
+	//è¿æ¥æœåŠ¡å™¨
 	sockaddr_in serverAdrr;
 	serverAdrr.sin_family = AF_INET;
 	serverAdrr.sin_port = htons(80);
@@ -58,7 +58,7 @@ bool Myspider::SockConnect()//Á¬½ÓÍøÂç
 
 	if (SOCKET_ERROR == connect(my_sock, (sockaddr*)&serverAdrr, sizeof(serverAdrr)))
 	{
-		cout << "Á¬½ÓÊ§°Ü" << endl;
+		cout << "è¿æ¥å¤±è´¥" << endl;
 		return false;
 	}
 
@@ -66,38 +66,39 @@ bool Myspider::SockConnect()//Á¬½ÓÍøÂç
 }
 
 
-//½âÎöurl
+
+//è§£æurl
 bool Myspider ::AnalyseURL(string url)
 {
 	if (url.empty())
 	{
-		cout << "½âÎöµÄURLÎª¿Õ" << endl;
+		cout << "è§£æçš„URLä¸ºç©º" << endl;
 		return false;
 	}
 		
 
 	if (url.length() <= 8)
 	{
-		cout << "URL²»ÕıÈ·" << endl;
+		cout << "URLä¸æ­£ç¡®" << endl;
 		return false;
 	}
 		
-	if (url.find("http://") == string::npos) //ÕÒ²»µ½
+	if (url.find("http://") == string::npos) //æ‰¾ä¸åˆ°
 	{
-		cout << "ÕÒ²»µ½http" << endl;
+		cout << "æ‰¾ä¸åˆ°http" << endl;
 		return false;
 	}
 
-	int pos = url.find('/', 7);				 //ÕÒµ½×îºóÒ»¸ö"/"µÄµØÖ·
+	int pos = url.find('/', 7);				 //æ‰¾åˆ°æœ€åä¸€ä¸ª"/"çš„åœ°å€
 	if (pos == string::npos)
 	{
-		my_host = url.substr(7);			// ´Óhttp;//ºóÒ»Î»½Øµ½×îºó
+		my_host = url.substr(7);			// ä»http;//åä¸€ä½æˆªåˆ°æœ€å
 		my_object = "/";
 	}
 	else
 	{
-		my_host = url.substr(7, pos - 8);   //½ØÈ¡³öÍøÒ³µÄÓòÃû
-		my_object = url.substr(pos);        //½ØÈ¡³öÖ÷»úÃû
+		my_host = url.substr(7, pos - 8);  		//æˆªå–å‡ºç½‘é¡µçš„åŸŸå
+		my_object = url.substr(pos);        		//æˆªå–å‡ºä¸»æœºå
 	}
 	if (my_host.empty())
 		return false;
@@ -106,20 +107,20 @@ bool Myspider ::AnalyseURL(string url)
 }
 
 
-//»ñÈ¡ÍøÒ³ĞÅÏ¢
+//è·å–ç½‘é¡µä¿¡æ¯
 bool Myspider::GetInfoHtml(string url)
 {
 	string strInfo = "GET " + my_object + " HTTP/1.1\r\nHost:";
-		strInfo = strInfo+ my_host + "\r\nConnection:close\r\n\r\n";   //±àĞ´ÇëÇóµÄĞÅÏ¢
+		strInfo = strInfo+ my_host + "\r\nConnection:close\r\n\r\n";    //ç¼–å†™è¯·æ±‚çš„ä¿¡æ¯
 
 	if (send(my_sock, strInfo.c_str(), strInfo.length(), 0) == SOCKET_ERROR)
 	{
-		cout << "·¢ËÍÊ§°Ü" << endl;
+		cout << "å‘é€å¤±è´¥" << endl;
 		closesocket(my_sock);
 		return false;
 	}
 
-	char re = 0;   //½ÓÊÕ·şÎñ¶Ë·¢»ØµÄĞÅÏ¢
+	char re = 0;  			 //æ¥æ”¶æœåŠ¡ç«¯å‘å›çš„ä¿¡æ¯
 	while (recv(my_sock,&re,1,0))
 	{
 		url = url + re;
@@ -130,11 +131,11 @@ bool Myspider::GetInfoHtml(string url)
 }
 
 
-//»ñÈ¡url
+//è·å–url
 bool Myspider::CatchHtml(string url)
 {
-	vector<string> vImages;   //´æ·ÅÍ¼Æ¬µÄĞÅÏ¢
-	queue<string> InfoQueue;  //´æ·ÅĞÅÏ¢µÄ¶ÓÁĞ
+	vector<string> vImages;  	 	//å­˜æ”¾å›¾ç‰‡çš„ä¿¡æ¯
+	queue<string> InfoQueue;  		//å­˜æ”¾ä¿¡æ¯çš„é˜Ÿåˆ—
 	InfoQueue.push(url);
 
 	while (!InfoQueue.empty())
@@ -143,11 +144,11 @@ bool Myspider::CatchHtml(string url)
 		InfoQueue.pop();
 		Myspider http;
 		http.AnalyseURL(CurrentUrl);
-		cout << "Ö÷»úÃû" << http.my_host << "\t×ÊÔ´Â·¾¶" << http.my_object << endl;
+		cout << "ä¸»æœºå" << http.my_host << "\tèµ„æºè·¯å¾„" << http.my_object << endl;
 
 		if (false == http.SockConnect())
 		{
-			cout << "Á¬½ÓÊ§°Ü" << endl;
+			cout << "è¿æ¥å¤±è´¥" << endl;
 			return false;
 		}
 
@@ -158,9 +159,9 @@ bool Myspider::CatchHtml(string url)
 		http.closeSock();
 
 
-		//Ê¹ÓÃÕıÔò±í´ïÊ½À´Æ¥ÅäËùĞèÒªµÄÊı¾İ
+		//ä½¿ç”¨æ­£åˆ™è¡¨è¾¾å¼æ¥åŒ¹é…æ‰€éœ€è¦çš„æ•°æ®
 		smatch mat;
-		regex rex("http://[^\\s'\"<>()]+");   // ÔÚÕıÔò±í´ïÊ½Àï\s´ú±í¿Õ°×·û
+		regex rex("http://[^\\s'\"<>()]+");  			 // åœ¨æ­£åˆ™è¡¨è¾¾å¼é‡Œ\sä»£è¡¨ç©ºç™½ç¬¦
 		string::const_iterator start = html.begin();
 		string::const_iterator end = html.end();
 
@@ -171,7 +172,7 @@ bool Myspider::CatchHtml(string url)
 			if (per.find(".jpg") != string::npos || per.find(".png") != string::npos ||
 				per.find(".jepg") != string::npos)
 			{
-				vImages.push_back(per);                //°ÑÊÇÍ¼Æ¬µÄurl´æ´¢ÆğÀ´
+				vImages.push_back(per);                //æŠŠæ˜¯å›¾ç‰‡çš„urlå­˜å‚¨èµ·æ¥
 			}
 			else
 			{
@@ -182,7 +183,7 @@ bool Myspider::CatchHtml(string url)
 		}
 
 
-		//ÏÂÔØÍ¼Æ¬
+		//ä¸‹è½½å›¾ç‰‡
 		for (int i = 0; i < vImages.size(); i++)
 		{
 			string filename = "C:\\Users/Administrator/Desktop/Array/images/" +
@@ -190,9 +191,9 @@ bool Myspider::CatchHtml(string url)
 
 			Myspider down;
 			if (down.download(vImages[i], filename) == 0)
-				cout << "ÏÂÔØÊ§°Ü" << GetLastError() << endl;
+				cout << "ä¸‹è½½å¤±è´¥" << GetLastError() << endl;
 			else
-				cout << "ÏÂÔØ³É¹¦" << endl;
+				cout << "ä¸‹è½½æˆåŠŸ" << endl;
 
 
 		}
@@ -203,30 +204,30 @@ bool Myspider::CatchHtml(string url)
 
 
 
-//ÏÂÔØÍ¼Æ¬º¯Êı
+//ä¸‹è½½å›¾ç‰‡å‡½æ•°
 bool Myspider::download(string url, string filename)
 {
 	AnalyseURL(url);
 	SockConnect();
 
 	string RequestStr = "GET " + my_object + " HTTP/1.1\r\nHost:";
-	RequestStr = RequestStr + my_host + "\r\nConnection:close\r\n\r\n";    //·¢ËÍÁ¬½ÓÇëÇó
+	RequestStr = RequestStr + my_host + "\r\nConnection:close\r\n\r\n";    //å‘é€è¿æ¥è¯·æ±‚
 	if (send(my_sock, RequestStr.c_str(), RequestStr.length(), 0) == SOCKET_ERROR)
 	{
-		cout << "·¢ËÍÊ§°Ü" << endl;
+		cout << "å‘é€å¤±è´¥" << endl;
 		closesocket(my_sock);
 		return false;
 	}
 
-	//´ò¿ªÎÄ¼ş×¼±¸½ÓÊÜÊı¾İ
+	//æ‰“å¼€æ–‡ä»¶å‡†å¤‡æ¥å—æ•°æ®
 	FILE* fp = fopen(filename.c_str(), "w");
 	if (fp == NULL)
 	{
-		cout << "´ò¿ªÎÄ¼şÊ§°Ü" << endl;
+		cout << "æ‰“å¼€æ–‡ä»¶å¤±è´¥" << endl;
 		return false;
 	}
 
-	//¹ıÂËµôÍ¼Æ¬´«»ØÊı¾İÖĞµÄÍ·²¿ĞÅÏ¢
+	//è¿‡æ»¤æ‰å›¾ç‰‡ä¼ å›æ•°æ®ä¸­çš„å¤´éƒ¨ä¿¡æ¯
 	char ch1 = 0;
 	while (recv(my_sock, &ch1, 1, 0))
 	{
@@ -261,7 +262,7 @@ bool Myspider::download(string url, string filename)
 }
 
 
-//¹Ø±ÕÌ×½Ó×Ö
+//å…³é—­å¥—æ¥å­—
 bool Myspider::closeSock()
 {
 	closesocket(my_sock);
