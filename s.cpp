@@ -159,7 +159,7 @@ bool Myspider::CatchHtml(string url)
 		http.closeSock();
 
 
-		//使用正则表达式来匹配所需要的数据
+		//使用正则表达式来匹配所需要的数据  筛选出自己要爬取的类型
 		smatch mat;
 		regex rex("http://[^\\s'\"<>()]+");  			 // 在正则表达式里\s代表空白符
 		string::const_iterator start = html.begin();
